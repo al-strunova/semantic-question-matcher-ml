@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - {{ query }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .result-count {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .results-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item:hover {
+            background-color: #f5f9ff;
+        }
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .result-meta {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .score-badge {
+            background-color: #e1f5fe;
+            color: #0288d1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .rank-badge {
+            background-color: #e8f5e9;
+            color: #388e3c;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .id-badge {
+            background-color: #f5f5f5;
+            color: #616161;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        .source-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <form action="/search" method="get" class="search-box">
+            <input type="text" name="query" value="{{ query }}" placeholder="Ask a question...">
+            <button type="submit">Search</button>
+        </form>
+    </header>
+
+    <main>
+        <h1>Search Results</h1>
+        {% if results %}
+        <p class="result-count">Found {{ results|length }} matching questions</p>
+        <ul class="results-list">
+            {% for result in results %}
+            <li class="result-item">
+                <div class="result-title">{{ result['question'] }}</div>
+                <div class="result-meta">
+                    <span class="score-badge">Similarity: {{ result['similarity_percentage'] }}</span>
+                    <span class="rank-badge">Rank: {{ result['rank'] }}</span>
+                    <span class="id-badge">ID: {{ result['question_id'] }}</span>
+                </div>
+                {% if 'clean_question' in result %}
+                <p><small>Normalized: {{ result['clean_question'] }}</small></p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="no-results">
+            {% if query %}
+            <p>No matching questions found for "{{ query }}"</p>
+            <p>Try rephrasing your question or using different keywords.</p>
+            {% else %}
+            <p>Enter a question to search</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="source-info">
+            <p>Results are generated using AI-powered semantic search over the Quora Question Pairs (QQP) dataset. This
+                dataset contains pairs of questions from Quora that may be semantically similar despite using different
+                wording. Results are ranked by semantic similarity score.</p>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Virtual environment
+.venv
+venv/
+env/
+data/qqp/
+.git/
+.idea/
+__pycache__/
+.gitignore
+.vscode/
+*.iml
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+logs/
+*.log
+build/
+dist/
+*.egg-info/
+README.md
+*.md

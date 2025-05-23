@@ -1,0 +1,15 @@
+# Data files
+data/
+
+# Virtual environment
+.venv
+
+# Python cache
+__pycache__/
+
+# IDE files
+.idea/
+*.iml
+
+# OS
+.DS_Store
