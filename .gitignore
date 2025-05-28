@@ -1,11 +1,16 @@
+# Python general
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/ # Distribution and installation metadata
+pip-wheel-metadata/
+
 # Data files
 data/
 
 # Virtual environment
 .venv
-
-# Python cache
-__pycache__/
 
 # IDE files
 .idea/
@@ -13,3 +18,15 @@ __pycache__/
 
 # OS
 .DS_Store
+
+build/
+dist/
+*.egg
+*.whl
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+models/
